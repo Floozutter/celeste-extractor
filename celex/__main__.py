@@ -1,10 +1,12 @@
-import PIL.Image
-from celex import Texture2DPlugin
+from PIL import Image
+from celex import decode
 
 
 def main():
-    a = PIL.Image.open("deadpan00.data")
+    with open("deadpan00.data", "rb") as ifile:
+        a = decode.decode(ifile.read())
     a.save("a.png")
+
 
 if __name__ == "__main__":
     main()
