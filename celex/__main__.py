@@ -2,22 +2,23 @@ from celex import decode
 from celex import fileio
 
 from PIL import Image
-from ntpath import basename
+from os import path
 
 
 def main():
     dirpath = input("Path to the Celeste graphics directory: ")
     filepaths = fileio.celeste_datafiles(dirpath)
-    for path in filepaths:
-        print(path)
-        with open(path, "rb") as ifile:
+    for fp in filepaths:
+        fname = path.relpath(fp, dirpath) + ".png"
+        fname = fname.replace("/", ".")
+        fname = fname.replace("\\", ".")
+        print(fname)
+        with open(fp, "rb") as ifile:
             try:
                 img = decode.decode(ifile.read())
-                img.save("./output/" + basename(path) + ".png")
+                img.save("./output/" + fname)
             except MemoryError:
-                print("\tOops, out of memory!")
-            except StopIteration:
-                print("\tOops, bad code!")
+                print("\Skipping due to out of memory!")
 
 
 if __name__ == "__main__":

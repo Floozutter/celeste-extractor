@@ -1,52 +1,56 @@
 from typing import Tuple, List
+from io import RawIOBase
 from PIL import Image
 
-
-Size  = Tuple[int, int]            # width, height
-Color = Tuple[int, int, int, int]  # red, green, blue, opacity
+Size= Tuple[int, int]  # width, height
 
 
-def to_int(b: bytes) -> int:
+def bytes_to_int(b: bytes) -> int:
     return int.from_bytes(b, "little")
 
 
-def to_pixels(encoded: bytes) -> (List[Color], Size):
+def data_to_raw(encoded: bytes) -> (bytes, Size):
     # read size
-    width  = to_int(encoded[0:4])
-    height = to_int(encoded[4:8])
+    width  = bytes_to_int(encoded[0:4])
+    height = bytes_to_int(encoded[4:8])
 
     # check if transparency is enabled
-    trans = bool(encoded[9])
-    trans = False  # hmmm...
+    trans = bool(encoded[8])
     
-    # convert run-length encoding to a list of pixels
-    pixels = []
+    # preapre to convert run-length encoding to raw
+    rawbytes = bytearray()
     iterbytes = iter(encoded[9:])
     
     reps = next(iterbytes, None)
     while reps is not None:
+        # get opacity byte
         if trans:
             o = next(iterbytes)
         else:
             o = 255
-        b = next(iterbytes)
-        g = next(iterbytes)
-        r = next(iterbytes)
 
+        # get color bytes
+        if o == 0:
+            b = 0  # color bytes aren't encoded
+            g = 0  # when opacity is zero
+            r = 0
+        else:
+            b = next(iterbytes)
+            g = next(iterbytes)
+            r = next(iterbytes)
+
+        # write to bytearray
         for i in range(reps):
-            pixels.append( (r, g, b, o) )
-
+            rawbytes.extend(bytes( (r, g, b, o) ))
+            
         reps = next(iterbytes, None)
         
-    return pixels, (width, height)
+    return bytes(rawbytes), (width, height)
 
 
-def to_image(pixels: List[Color], size: Size) -> Image:
-    img = Image.new("RGBA", size)
-    img.putdata(pixels)
-    return img
+def raw_to_image(rawbytes: bytes, size: Size) -> Image:
+    return Image.frombytes("RGBA", size, rawbytes)
 
 
 def decode(texture2d: bytes) -> Image:
-    pixels, size = to_pixels(texture2d)
-    return to_image(pixels, size)
+    return raw_to_image(*data_to_raw(texture2d))
