@@ -1,5 +1,5 @@
 from celex import decode
-from celex import fileio
+from celex import filefind
 
 from PIL import Image
 from os import path
@@ -7,7 +7,7 @@ from os import path
 
 def main():
     dirpath = input("Path to the Celeste graphics directory: ")
-    filepaths = fileio.celeste_datafiles(dirpath)
+    filepaths = filefind.celeste_data(dirpath)
     for fp in filepaths:
         fname = path.relpath(fp, dirpath) + ".png"
         fname = fname.replace("/", ".")

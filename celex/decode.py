@@ -1,8 +1,7 @@
-from typing import Tuple, List
-from io import RawIOBase
+from typing import Tuple
 from PIL import Image
 
-Size= Tuple[int, int]  # width, height
+Size = Tuple[int, int]  # width, height
 
 
 def bytes_to_int(b: bytes) -> int:
