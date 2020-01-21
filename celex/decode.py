@@ -1,5 +1,5 @@
-from typing import Tuple
 from PIL import Image
+from typing import Tuple
 
 Size = Tuple[int, int]  # width, height
 
@@ -29,8 +29,9 @@ def data_to_rgba(data: bytes) -> Tuple[bytes, Size]:
         - G, green color channel      (1 byte integer)
         - R, red color channel        (1 byte integer)
 
+    The pixel data omits encoding redundant information in some cases.
     If the transparency byte is False, the alpha channel byte is omitted.
-    If A, the alpha channel byte is 0, the RGB bytes are omitted.
+    If the alpha channel byte is 0, the RGB bytes are omitted.
     """
 
     # read size

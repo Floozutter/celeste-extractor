@@ -1,5 +1,5 @@
-from typing import List, Callable
 from os import walk, path
+from typing import List, Callable
 
 
 def extension_matcher(extension: str) -> Callable[[str], bool]:
