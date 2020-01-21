@@ -3,12 +3,20 @@ from os import walk, path
 
 
 def extension_matcher(extension: str) -> Callable[[str], bool]:
+    """
+    Returns a closure that checks if a filename has a certain extension.
+    """
     def has_extension(filename: str) -> bool:
         return filename.endswith("." + extension)
     return has_extension
 
 
 def every(directory: str, recur: bool = True) -> List[str]:
+    """
+    Finds every file in the argument directory.
+
+    If `recur` is True, files within subdirectories will be searched.
+    """
     files: List[str] = []
     for (dirpath, _, filenames) in walk(directory):
         files.extend(path.join(dirpath, f) for f in filenames)
@@ -18,6 +26,9 @@ def every(directory: str, recur: bool = True) -> List[str]:
 
 
 def celeste_data(directory: str, recur: bool = True) -> List[str]:
+    """
+    Finds every Celeste data file in the argument directory.
+    """
     return list(filter(
         extension_matcher("data"),
         every(directory, recur)
