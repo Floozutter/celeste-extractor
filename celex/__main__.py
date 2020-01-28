@@ -1,6 +1,5 @@
 from argparse import ArgumentParser, ArgumentTypeError
 from os import path
-from PIL import Image
 
 from celex import filefind
 from celex import decode

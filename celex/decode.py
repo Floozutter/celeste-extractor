@@ -75,14 +75,14 @@ def data_to_rgba(data: bytes) -> Tuple[bytes, Size]:
     return bytes(rgba), (width, height)
 
 
-def rgba_to_image(rgba: bytes, size: Size) -> Image:
+def rgba_to_image(rgba: bytes, size: Size) -> Image.Image:
     """
     Convert RGBA bytes and a size to a PIL.Image.
     """
     return Image.frombytes("RGBA", size, rgba)
 
 
-def decode(data: bytes) -> Image:
+def decode(data: bytes) -> Image.Image:
     """
     Create a PIL.Image instance from the bytes of a Celeste data file.
     """
