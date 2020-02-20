@@ -1,3 +1,7 @@
+"""
+Functions for getting filepaths from the OS.
+"""
+
 from os import walk, path
 from typing import List, Callable
 

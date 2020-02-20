@@ -1,3 +1,7 @@
+"""
+Functions for decoding the bytes of a Celeste data file.
+"""
+
 from PIL import Image
 from typing import Tuple
 
@@ -41,7 +45,7 @@ def data_to_rgba(data: bytes) -> Tuple[bytes, Size]:
     # check if transparency is enabled
     trans = bool(data[8])
     
-    # preapre to convert run-length encoding to raw
+    # prepare to convert run-length encoding to raw
     rgba = bytearray()
     iterbytes = iter(data[9:])
     
@@ -59,9 +63,9 @@ def data_to_rgba(data: bytes) -> Tuple[bytes, Size]:
             a = 255
 
         # get color bytes
-        if a == 0:
-            b = 0  # color bytes aren't encoded
-            g = 0  # when alpha channel is zero
+        if a == 0:  # color bytes aren't encoded
+            b = 0
+            g = 0
             r = 0
         else:
             b = next(iterbytes)

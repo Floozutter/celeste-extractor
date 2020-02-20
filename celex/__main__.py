@@ -1,3 +1,7 @@
+"""
+Parse command-line arguments to extract Celeste data files.
+"""
+
 from argparse import ArgumentParser, ArgumentTypeError
 from os import path
 
@@ -37,13 +41,12 @@ def extract(inputdir: str, outputdir: str) -> None:
 
 def valid_dir(directory: str) -> str:
     """
-    Check if argparse argument is a valid path to a directory.
+    Check if an argparse argument is a valid path to a directory.
     """
     if not path.isdir(directory):
         msg = f"{directory} is not a valid path to a directory"
         raise ArgumentTypeError(msg)
     return directory
-
 
 def parse_args() -> Tuple[str, str]:
     """
