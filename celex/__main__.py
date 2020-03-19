@@ -50,7 +50,7 @@ def valid_dir(directory: str) -> str:
 
 def parse_args() -> Tuple[str, str]:
     """
-    Get input and output directory args from the command-line.
+    Get input and output directory args from the command line.
     """
     parser = ArgumentParser(description="Extract Celeste data files",
                             prog="celex")
